@@ -10,7 +10,7 @@ public class Tester
         numList.add(50);
         numList.add(40);
         numList.add(12);
-        numList.add(200);
+        numList.add(100);
         numList.add(50);
         numList.add(50);
         numList.add(12);
@@ -21,11 +21,12 @@ public class Tester
         double mean = tester.computeMean(numList);
         double median = tester.computeMedian(numList);
         double mode = tester.computeMode(numList);
+        double sd = tester.computeStandardDeviation(numList);
         
         System.out.println(numList);
         System.out.println("Mean: " + mean);
         System.out.println("Median: " + median);
         System.out.println("Mode: " + mode);
-        System.out.println(numList);
+        System.out.println("Standard Deviation: " + sd);
     }
 }

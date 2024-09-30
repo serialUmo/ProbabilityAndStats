@@ -3,6 +3,7 @@ import java.util.HashMap;
 
 public class StatsLibrary
 {
+    //Computations
     public double computeMean(ArrayList<Integer> numList)
     {
         int sum = 0;
@@ -59,8 +60,30 @@ public class StatsLibrary
         
         return mode;
     }
+
+    public double computeVariance(ArrayList<Integer> numList)
+    {
+        double mean = computeMean(numList);
+        double variance = 0;
+
+        if(numList.size() < 2){
+            return 0;
+        }
+
+        for (int num : numList){
+            variance += Math.pow(num - mean, 2);
+        }
+
+        variance /= numList.size() - 1;
+
+        return variance;
+    }
     
-    
+    public double computeStandardDeviation(ArrayList<Integer> numList)
+    {
+        return Math.sqrt(computeVariance(numList));
+    }
+
     //Sorting
     public void bubbleSort (ArrayList<Integer> list){
         while(!isSorted(list)){
