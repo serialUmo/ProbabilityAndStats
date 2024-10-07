@@ -28,5 +28,6 @@ public class Tester
         System.out.println("Median: " + median);
         System.out.println("Mode: " + mode);
         System.out.println("Standard Deviation: " + sd);
+        System.out.println("6!: " + tester.factorial(6));
     }
 }

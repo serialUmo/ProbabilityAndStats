@@ -84,6 +84,22 @@ public class StatsLibrary
         return Math.sqrt(computeVariance(numList));
     }
 
+    public int permutation (int n, int r){
+        return factorial(n)/(factorial(n - r));
+    }
+
+    public int combination (int n, int r){
+        return permutation(n, r)/factorial(r);
+    }
+
+    public int factorial(int input){
+        if(input == 1){
+            return 1;
+        }
+
+        return input * factorial(input - 1);
+    }
+
     //Sorting
     public void bubbleSort (ArrayList<Integer> list){
         while(!isSorted(list)){
