@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Tester
+public class StatsLTester
 {
     public static void main(String[] args){
         StatsLibrary tester = new StatsLibrary();

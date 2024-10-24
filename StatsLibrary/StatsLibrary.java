@@ -3,7 +3,8 @@ import java.util.HashMap;
 
 public class StatsLibrary
 {
-    //Computations
+    //Basic Stats ======================================
+
     public double computeMean(ArrayList<Integer> numList)
     {
         int sum = 0;
@@ -84,6 +85,8 @@ public class StatsLibrary
         return Math.sqrt(computeVariance(numList));
     }
 
+    // Combinatorics ==============================
+
     public int permutation (int n, int r){
         return factorial(n)/(factorial(n - r));
     }
@@ -100,7 +103,37 @@ public class StatsLibrary
         return input * factorial(input - 1);
     }
 
-    //Sorting
+    //Probability  =================================
+
+    //Find P(A|B) using P(A n B), P(B)
+    public double conditionalProbability(double anb, double b){
+        return anb/b;
+    }
+
+    //Find P(A|B), using P(B|A), P(B), P(A) 
+    public double bayesTheorem1(double bga, double a, double b){
+        return (bga*a)/b;
+    }
+
+    //Find P(A|B), using P(A n B), P(A), P(B) 
+    public double bayesTheorem2(double anb, double a, double b){
+        return (conditionalProbability(anb, a)*a)/b;
+    }
+
+    //Distributions ================================
+
+    //Binomial Distribution
+    public double binomdist(int n, double p, int x){
+        return combination(n, x) * Math.pow(p,x) * Math.pow(1-p, n-x);
+    }
+
+    //Geometric Distribution
+    public double geometdist(double p, int x){
+        return p * Math.pow(1 - p, x);
+    }
+
+    //Sorting =======================================
+
     public void bubbleSort (ArrayList<Integer> list){
         while(!isSorted(list)){
             for(int i = 0; i < list.size() - 1; i++){
@@ -121,4 +154,6 @@ public class StatsLibrary
         }
         return true;
     }
+
+    
 }
