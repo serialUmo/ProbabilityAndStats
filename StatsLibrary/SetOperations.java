@@ -1,6 +1,15 @@
 import java.util.ArrayList;
 
+/**
+ * Contains computations relating to set operations.
+ */
 public class SetOperations {
+    /**
+     * Returns an arraylist containing elements from A union B.
+     * @param a An arraylist of integers.
+     * @param b An arraylist of integers.
+     * @return The resulting arraylist.
+     */
     public ArrayList<Integer> union(ArrayList<Integer> a, ArrayList<Integer> b){
         ArrayList<Integer> output = new ArrayList<>();
 
@@ -17,6 +26,12 @@ public class SetOperations {
         return output;
     }
 
+    /**
+     * Returns an arraylist containing elements from A intersect B.
+     * @param a An arraylist of integers.
+     * @param b An arraylist of integers.
+     * @return The resulting arraylist.
+     */
     public ArrayList<Integer> intersect(ArrayList<Integer> a, ArrayList<Integer> b){
         ArrayList<Integer> output = new ArrayList<>();
 
@@ -29,6 +44,12 @@ public class SetOperations {
         return output;
     }
 
+    /**
+     * Returns the complement of B, where A is the universal set.
+     * @param a Arraylist of the universal set.
+     * @param b An arraylist of integers.
+     * @return The resulting arraylist.
+     */
     public ArrayList<Integer> complement(ArrayList<Integer> a, ArrayList<Integer> b){
         ArrayList<Integer> output = new ArrayList<>();
 

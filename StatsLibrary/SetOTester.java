@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+/**
+ * Tests the functionality of SetOperations.
+ */
 public class SetOTester {
     public static void main(String[] args) {
         SetOperations setOp = new SetOperations();

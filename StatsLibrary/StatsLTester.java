@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+/**
+ * Tests the functions of StatsLibrary.
+ */
 public class StatsLTester
 {
     public static void main(String[] args){
