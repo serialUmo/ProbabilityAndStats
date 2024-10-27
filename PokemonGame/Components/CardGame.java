@@ -72,6 +72,7 @@ public class CardGame
      * @param p The player whose turn it is.
      */
     private void doTurn(Player p) {
+        br();
         say(p + " =========================================");
 
         //Draw card
@@ -83,17 +84,20 @@ public class CardGame
             return;
         }
 
-        //Display information
-        say("ACTIVE: " + p.getActive());
-        say("BENCH: ");
-        p.printBench();
-        say("HAND: ");
-        p.printHand();
+        
 
         placedEnergy = false;
         placedSupporter = false;
         turnDone = false;
         while(!turnDone){
+            br();
+            //Display information
+            say("ACTIVE: " + p.getActive());
+            say("BENCH: ");
+            p.printBench();
+            say("HAND: ");
+            p.printHand();
+
             say("What do you wanna do? (Enter #)");
             say("1. ATTACK\n" +
             "2. PLACE ENERGY CARD\n" +
@@ -108,6 +112,15 @@ public class CardGame
 
                 //Check if pokemon fainted
                 if(!p.getActive().isAlive()){
+                    //Draw Prize
+                    done = !winPrize(getOpp(p));
+                    if(done){
+                        say("ALL PRIZES DRAWN!");
+                        loser = p.toString();
+                        return;
+                    }
+
+                    //Swap Pokemon
                     done = !swapActive(p);
                     if(done){
                         say("OUT OF POKEMON!");
@@ -116,6 +129,14 @@ public class CardGame
                     }
                 }
                 if(!getOpp(p).getActive().isAlive()){
+                    //Draw Prize
+                    done = !winPrize(getOpp(p));
+                    if(done){
+                        say("ALL PRIZES DRAWN!");
+                        loser = p.toString();
+                        return;
+                    }
+                    //Swap Pokemon
                     done = !swapActive(getOpp(p));
                     if(done){
                         say("OUT OF POKEMON!");
@@ -154,6 +175,7 @@ public class CardGame
      * @param opp The opposing player.
      */
     private void attack(Player p, Player opp) {
+        br();
         say(p.getActive().toString());
         say("1: " + p.getActive().getMove1Desc());
         say("2: " + p.getActive().getMove2Desc());
@@ -182,6 +204,7 @@ public class CardGame
      * @param p The player performing the action.
      */
     private void placeEnergy(Player p) {
+        br();
         if(placedEnergy){
             say("You can only place one energy card per turn!");
             return;
@@ -204,6 +227,8 @@ public class CardGame
         }
         int energyIndex = choice;
 
+
+        br();
         //Pick Pokemon
         say(p + ", pick a Pokemon to attach! (Enter #)");
         say("-1: ACTIVE - " + p.getActive());
@@ -214,21 +239,26 @@ public class CardGame
         if(choice == -2){
             return;
         }
-        while(!(p.getHand().get(choice) instanceof Pokemon)){
+        if(choice == -1){
+            p.getActive().getEnergies().add((Energy) p.getHand().remove(energyIndex));
+            placedEnergy = true;
+            return;
+        }
+        while(!(p.getBench().get(choice) instanceof Pokemon)){
             say("That's not a Pokemon, silly!");
             choice = scan.nextInt();
+            if(choice == -1){
+                p.getActive().getEnergies().add((Energy) p.getHand().remove(energyIndex));
+                placedEnergy = true;
+                return;
+            }
             if(choice == -2){
                 return;
             }
         }
-        int pokemonIndex = choice;
 
-        if(pokemonIndex == -2){
-            p.getActive().getEnergies().add((Energy) p.getHand().remove(energyIndex));
-        }
-        else{
-            p.getBench().get(pokemonIndex).getEnergies().add((Energy) p.getHand().remove(energyIndex));
-        }
+        p.getBench().get(choice).getEnergies().add((Energy) p.getHand().remove(energyIndex));
+        placedEnergy = true;
     }
 
     /**
@@ -236,6 +266,7 @@ public class CardGame
      * @param p The player performing the action.
      */
     private void playTrainer(Player p) {
+        br();
         //Pick Trainer
         say(p + ", pick a Trainer Card to use! (Enter #)");
         p.printHand();
@@ -273,6 +304,7 @@ public class CardGame
      * @return Whether or not a swap can be and was performed.
      */
     private boolean swapActive(Player p) {
+        br();
         if(p.getBench().size() == 0){
             say("There's no one in your bench!");
             return false;
@@ -311,6 +343,7 @@ public class CardGame
      * @param p The player performing the action.
      */
     private void bench(Player p) {
+        br();
         if(p.getBench().size() == 5){
             say("Your bench is full, dude!");
             return;
@@ -331,7 +364,24 @@ public class CardGame
             }
         }
         say("Benched " + p.getHand().get(choice).getName() + "!");
-        p.handToActive(choice);
+        p.getBench().add((Pokemon) p.getHand().remove(choice));
+    }
+
+    /**
+     * Draws a card from the prize pile.
+     * @param p The player drawing.
+     * @return If there are remaining prizes after drawing.
+     */
+    public boolean winPrize(Player p){
+        say(p + " draws a prize card!");
+        p.takePrize();
+
+        if(p.getPrizes().size() == 0){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 
     //GAME START METHODS =======================================
@@ -397,6 +447,7 @@ public class CardGame
      * @param p The player performing the action.
      */
     private void pickInitialActive(Player p) {
+        br();
         say(p + ", pick a Pokemon to place as your active! (Enter #)");
         p.printHand();
         int choice = scan.nextInt();
@@ -405,7 +456,7 @@ public class CardGame
             choice = scan.nextInt();
         }
         say("You chose " + p.getHand().get(choice).getName() + "!");
-        p.handToActive(choice);
+        p.setActive((Pokemon) p.getHand().remove(choice));
     }
 
     // UTILITY ===========================================================
@@ -416,6 +467,13 @@ public class CardGame
      */
     private void say(String text){
         System.out.println(text);
+    }
+
+    /**
+     * Makes a line break.
+     */
+    private void br(){
+        System.out.println();
     }
     
     /**

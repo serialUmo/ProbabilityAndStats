@@ -7,6 +7,7 @@ public class RareCandy extends Trainer
     public RareCandy(){
         setName("Rare Candy");
         setSupporter(false);
+        setDesc("Does nothing.");
     }
 
     public void use(Player p) {

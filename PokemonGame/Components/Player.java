@@ -36,12 +36,35 @@ public class Player
     //Fill a deck with 60 cards.
     public void fillDeck(){
         deck = new ArrayList<>();
-        for(int i = 0; i < 30; i++){
-            deck.add(new Energy("Fire"));
+
+        //Pokemon
+        deck.add(new Charmander());
+        deck.add(new Pikachu());
+        deck.add(new Bulbasaur());
+        deck.add(new Squirtle());
+
+        //Trainers
+        deck.add(new Nemona());
+        deck.add(new Nemona());
+        deck.add(new ProfResearch());
+        deck.add(new ProfResearch());
+        deck.add(new RareCandy());
+        deck.add(new RareCandy());
+
+        //Energy
+        for(int i = 0; i < 10; i++){
+            deck.add(new Energy("F"));
         }
-        for(int i = 0; i < 30; i++){
-            deck.add(new Charmander());
+        for(int i = 0; i < 10; i++){
+            deck.add(new Energy("G"));
         }
+        for(int i = 0; i < 10; i++){
+            deck.add(new Energy("W"));
+        }
+        for(int i = 0; i < 10; i++){
+            deck.add(new Energy("E"));
+        }
+
     }
     
     //Draw 7 cards into hand.
@@ -67,16 +90,6 @@ public class Player
         while (!hand.isEmpty()){
             deck.add(hand.remove(0));
         }
-    }
-
-    //Takes card from hand and places as active.
-    public void handToActive(int index){
-        active = (Pokemon) hand.remove(index);
-    }
-
-    //Benches a card.
-    public void handToBench(int index){
-        bench.add((Pokemon) hand.remove(index));
     }
 
     //Discards a card from hand.

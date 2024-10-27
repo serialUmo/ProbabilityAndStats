@@ -23,4 +23,7 @@ public abstract class Trainer extends Card
      */
     public abstract void use(Player p);
     
+    public String toString(){
+        return getName() + " - " +  description;
+    }
 }
