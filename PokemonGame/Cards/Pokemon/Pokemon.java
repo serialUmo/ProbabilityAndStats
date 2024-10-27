@@ -1,6 +1,7 @@
 package PokemonGame.Cards.Pokemon;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import PokemonGame.Cards.Card;
 import PokemonGame.Cards.Energy.Energy;
@@ -15,12 +16,15 @@ import PokemonGame.Components.Player;
  */
 public abstract class Pokemon extends Card
 {
+    private Random rng;
+
     private int hp;
     private String move1Desc;
     private String move2Desc;
     private ArrayList<Energy> energies;
 
     public Pokemon(){
+        rng = new Random();
         energies = new ArrayList<>();
     }
 
@@ -53,6 +57,8 @@ public abstract class Pokemon extends Card
     public void setMove2Desc(String input){move2Desc = input;}
 
     public ArrayList<Energy> getEnergies(){return energies;}
+
+    public Random getRNG(){return rng;}
     
     public String toString(){
         return getName() + " (HP: " + hp + ")";
