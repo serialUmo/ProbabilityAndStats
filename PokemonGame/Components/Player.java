@@ -75,6 +75,16 @@ public class Player
         bench.add((Pokemon) hand.remove(index));
     }
 
+    //Discards a card from hand.
+    public void discardHandCard(int index){
+        discardPile.add(hand.remove(index));
+    }
+
+    //Places a card into the discard pile.
+    public void discard(Card c){
+        discardPile.add(c);
+    }
+
     //Takes card from active to bench.
     public void activeToBench(){
         bench.add(active);
