@@ -6,5 +6,9 @@ public class Card
     
     public String getName(){return name;}
     public void setName(String input){name = input;}
+
+    public String toString(){
+        return name;
+    }
 }
 

@@ -1,4 +1,4 @@
-package PokemonGame;
+package PokemonGame.Components;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -9,43 +9,76 @@ import PokemonGame.Cards.Trainer.*;
 
 public class Player
 {
+    private String name;
+
     private Random rng;
     private ArrayList<Card> deck;
     private ArrayList<Card> hand;
     private ArrayList<Card> prizes;
+    private ArrayList<Pokemon> bench;
+    private ArrayList<Card> discardPile;
+    private Pokemon active;
     
-    public Player(){
+    //Constructor
+    public Player(String n){
+        name = n;
         rng = new Random();
         hand = new ArrayList<>();
         prizes = new ArrayList<>();
+        bench = new ArrayList<>();
+        discardPile = new ArrayList<>();
     }
     
     //Fill a deck with 60 cards.
     public void fillDeck(){
         deck = new ArrayList<>();
-        for(int i = 0; i < 60; i++){
-            deck.add(new Energy());
+        for(int i = 0; i < 30; i++){
+            deck.add(new Energy("Fire"));
+        }
+        for(int i = 0; i < 30; i++){
+            deck.add(new Charmander());
         }
     }
     
     //Draw 7 cards into hand.
     public void drawHand(){
         for (int i = 0; i < 7; i++){
-            draw();
+            drawCard();
         }
     }
     
-    //Draws 1 card into hand.
-    public void draw(){
+    //Draws 1 card into hand. Returns false if no card can be drawn.
+    public boolean drawCard(){
+        if(deck.size() == 0){
+            return false;
+        }
+
         int drawIndex = rng.nextInt(deck.size());
         hand.add(deck.remove(drawIndex));
+        return true;
     }
     
     //Discards entire hand into deck.
-    public void discardHand(){
+    public void handToDeck(){
         while (!hand.isEmpty()){
             deck.add(hand.remove(0));
         }
+    }
+
+    //Takes card from hand and places as active.
+    public void handToActive(int index){
+        active = (Pokemon) hand.remove(index);
+    }
+
+    //Benches a card.
+    public void handToBench(int index){
+        bench.add((Pokemon) hand.remove(index));
+    }
+
+    //Takes card from active to bench.
+    public void activeToBench(){
+        bench.add(active);
+        active = null;
     }
     
     //Checks if hand contains a Pokemon.
@@ -95,7 +128,7 @@ public class Player
             deck.add(new Charmander());
         }
         for(int i = pokemon; i < 60; i++){
-            deck.add(new Energy());
+            deck.add(new Energy(""));
         }
     }
     
@@ -113,5 +146,37 @@ public class Player
     //Getters
     public ArrayList<Card> getHand(){return hand;}
     public ArrayList<Card> getDeck(){return deck;}
+    public ArrayList<Card> getPrizes(){return prizes;}
+    public ArrayList<Pokemon> getBench(){return bench;}
+    public Pokemon getActive(){return active;}
+
+    //Setters
+    public void setActive(Pokemon input){
+        active = input;
+    }
+
+    //Printers
+    public void printHand(){
+        for(int i = 0; i < hand.size(); i++){
+            System.out.println(i + ": " + hand.get(i));
+        }
+    }
+    public void printDeck(){
+        for(int i = 0; i < deck.size(); i++){
+            System.out.println(i + ": " + deck.get(i));
+        }
+    }
+    public void printBench(){
+        for(int i = 0; i < bench.size(); i++){
+            System.out.println(i + ": " + bench.get(i));
+        }
+        for(int i = bench.size(); i < 5; i++){
+            System.out.println(i + ": Empty");
+        }
+    }
+
+    public String toString(){
+        return name;
+    }
     
 }
