@@ -7,6 +7,10 @@ import PokemonGame.Cards.Energy.*;
 import PokemonGame.Cards.Pokemon.*;
 import PokemonGame.Cards.Trainer.*;
 
+/**
+ * A player is an actor in the Pokemon TCG who uses cards to interface with another player in the game.
+ * A player has a hand, a deck, a prize pile, an active slot, a bench, and a discard pile.
+ */
 public class Player
 {
     private String name;
@@ -83,12 +87,6 @@ public class Player
     //Places a card into the discard pile.
     public void discard(Card c){
         discardPile.add(c);
-    }
-
-    //Takes card from active to bench.
-    public void activeToBench(){
-        bench.add(active);
-        active = null;
     }
     
     //Checks if hand contains a Pokemon.

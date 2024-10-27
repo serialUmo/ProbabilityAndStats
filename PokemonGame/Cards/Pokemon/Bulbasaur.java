@@ -14,7 +14,7 @@ public class Bulbasaur extends Pokemon
 
     public boolean move1(Player p, Player opp) {
         for(Energy e : getEnergies()){
-            if (e.getElement().equals("Grass")){
+            if (e.getElement().equals("G")){
                 opp.getActive().subtractHp(10);
                 return true;
             }
@@ -29,7 +29,7 @@ public class Bulbasaur extends Pokemon
 
         for(Energy e : getEnergies()){
             n++;
-            if (e.getElement().equals("Grass")){
+            if (e.getElement().equals("G")){
                 g++;
             }
         }

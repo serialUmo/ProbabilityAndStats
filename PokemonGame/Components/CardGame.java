@@ -3,7 +3,9 @@ package PokemonGame.Components;
 import java.util.Random;
 import java.util.Scanner;
 
+import PokemonGame.Cards.Energy.Energy;
 import PokemonGame.Cards.Pokemon.Pokemon;
+import PokemonGame.Cards.Trainer.Trainer;
 
 /**
  * Runs a Pokemon card game.
@@ -17,6 +19,8 @@ public class CardGame
 
     private boolean done;
     private boolean turnDone;
+    private boolean placedEnergy;
+    private boolean placedSupporter;
     private String loser;
     
     public CardGame(){
@@ -58,9 +62,15 @@ public class CardGame
             }
         }
 
-        
+        say("=========================================");
+        say(loser + " lost!");
     }
 
+    /**
+     * Performs a player's turn within a Pokemon match.
+     * During a turn, a player may attack, play a trainer card, place an energy card, swap active pokemon with benched pokemon, and end turn without attacking.
+     * @param p The player whose turn it is.
+     */
     private void doTurn(Player p) {
         say(p + " =========================================");
 
@@ -80,6 +90,8 @@ public class CardGame
         say("HAND: ");
         p.printHand();
 
+        placedEnergy = false;
+        placedSupporter = false;
         turnDone = false;
         while(!turnDone){
             say("What do you wanna do? (Enter #)");
@@ -87,11 +99,30 @@ public class CardGame
             "2. PLACE ENERGY CARD\n" +
             "3. PLAY TRAINER CARD\n" +
             "4. SWAP ACTIVE POKEMON\n" +
-            "5. BENCH POKEMON");
+            "5. BENCH POKEMON\n" +
+            "6. END TURN");
             int choice = scan.nextInt();
 
             if(choice == 1){
                 attack(p, getOpp(p));
+
+                //Check if pokemon fainted
+                if(!p.getActive().isAlive()){
+                    done = !swapActive(p);
+                    if(done){
+                        say("OUT OF POKEMON!");
+                        loser = p.toString();
+                        return;
+                    }
+                }
+                if(!getOpp(p).getActive().isAlive()){
+                    done = !swapActive(getOpp(p));
+                    if(done){
+                        say("OUT OF POKEMON!");
+                        loser = getOpp(p).toString();
+                        return;
+                    }
+                }
             }
             else if (choice == 2){
                 placeEnergy(p);
@@ -105,53 +136,174 @@ public class CardGame
             else if (choice == 5){
                 bench(p);
             }
+            else if (choice == 6){
+                say("Passed!");
+                return;
+            }
             else{
                 say("What?");
             }
         }
 
-
+        
     }
 
+    /**
+     * Selects active pokemon moves and attempts to perform them.
+     * @param p The player performing the action.
+     * @param opp The opposing player.
+     */
     private void attack(Player p, Player opp) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'attack'");
+        say(p.getActive().toString());
+        say("1: " + p.getActive().getMove1Desc());
+        say("2: " + p.getActive().getMove2Desc());
+        say("-1: CANCEL");
+
+        boolean attackDone = false;
+
+        while(!attackDone){
+            int choice = scan.nextInt();
+
+            if(choice == -1){
+                return;
+            }
+            if(choice == 1){
+                attackDone = p.getActive().move1(p, opp);
+            }
+            if(choice == 2){
+                attackDone = p.getActive().move2(p, opp);
+            }
+        }
+        turnDone = true;
     }
 
+    /**
+     * Picks an energy card from hand to attach to a pokemon.
+     * @param p The player performing the action.
+     */
     private void placeEnergy(Player p) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'placeEnergy'");
+        if(placedEnergy){
+            say("You can only place one energy card per turn!");
+            return;
+        }
+
+        //Pick Energy
+        say(p + ", pick a Energy to attach! (Enter #)");
+        p.printHand();
+        say("-1: CANCEL");
+        int choice = scan.nextInt();
+        if(choice == -1){
+            return;
+        }
+        while(!(p.getHand().get(choice) instanceof Energy)){
+            say("That's not an Energy card!");
+            choice = scan.nextInt();
+            if(choice == -1){
+                return;
+            }
+        }
+        int energyIndex = choice;
+
+        //Pick Pokemon
+        say(p + ", pick a Pokemon to attach! (Enter #)");
+        say("-1: ACTIVE - " + p.getActive());
+        say("BENCH: ");
+        p.printBench();
+        say("-2: CANCEL");
+        choice = scan.nextInt();
+        if(choice == -2){
+            return;
+        }
+        while(!(p.getHand().get(choice) instanceof Pokemon)){
+            say("That's not a Pokemon, silly!");
+            choice = scan.nextInt();
+            if(choice == -2){
+                return;
+            }
+        }
+        int pokemonIndex = choice;
+
+        if(pokemonIndex == -2){
+            p.getActive().getEnergies().add((Energy) p.getHand().remove(energyIndex));
+        }
+        else{
+            p.getBench().get(pokemonIndex).getEnergies().add((Energy) p.getHand().remove(energyIndex));
+        }
     }
 
+    /**
+     * Picks a Trainer card to use. Returns if already played a supporter card.
+     * @param p The player performing the action.
+     */
     private void playTrainer(Player p) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'playTrainer'");
+        //Pick Trainer
+        say(p + ", pick a Trainer Card to use! (Enter #)");
+        p.printHand();
+        say("-1: CANCEL");
+        int choice = scan.nextInt();
+        if(choice == -1){
+            return;
+        }
+        while(!(p.getHand().get(choice) instanceof Trainer)){
+            say("That's not a Trainer card!");
+            choice = scan.nextInt();
+            if(choice == -1){
+                return;
+            }
+        }
+
+        //Check supporter status
+        Trainer temp = (Trainer) p.getHand().get(choice);
+        if(temp.isSupporter() && placedSupporter){
+            say("This is a supporter card! You already played one this turn!");
+            return;
+        }
+
+        //Take out card
+        p.getHand().remove(choice);
+
+        //Use and discard
+        temp.use(p);
+        p.discard(temp);
     }
 
     /**
      * Chooses a pokemon from the bench to swap with the active pokemon.
      * @param p The player performing the action.
+     * @return Whether or not a swap can be and was performed.
      */
-    private void swapActive(Player p) {
+    private boolean swapActive(Player p) {
         if(p.getBench().size() == 0){
             say("There's no one in your bench!");
-            return;
+            return false;
         }
 
         say("ACTIVE: " + p.getActive());
         say("BENCH:");
         p.printBench();
-        say("-1: CANCEL");
 
-        say("Swap " + p.getActive().getName() + " with who? (Enter #)");
-        int choice = scan.nextInt();
-
-        if(choice == -1){
-            return;
+        if(p.getActive().isAlive()){
+            say("-1: CANCEL");
         }
 
-        p.activeToBench();
+        say(p + ", swap " + p.getActive().getName() + " with who? (Enter #)");
+        int choice = scan.nextInt();
+
+        if(p.getActive().isAlive() && choice == -1){
+            return false;
+        }
+
+        if(p.getActive().isAlive()){
+            p.getBench().add(p.getActive());
+        }
+        else{
+            while(p.getActive().getEnergies().size() != 0){
+                p.discard(p.getActive().getEnergies().remove(0));;
+            }
+            p.discard(p.getActive());
+        }
         p.setActive(p.getBench().remove(choice));
+        return true;
     }
 
     /**
@@ -164,7 +316,7 @@ public class CardGame
             return;
         }
 
-        say("Pick a Pokemon to bench! (Enter #)");
+        say(p + ", pick a Pokemon to bench! (Enter #)");
         p.printHand();
         say("-1: CANCEL");
         int choice = scan.nextInt();
@@ -242,7 +394,7 @@ public class CardGame
 
     /**
      * Chooses initial active pokemon.
-     * @param p
+     * @param p The player performing the action.
      */
     private void pickInitialActive(Player p) {
         say(p + ", pick a Pokemon to place as your active! (Enter #)");

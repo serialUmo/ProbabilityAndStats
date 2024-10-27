@@ -28,14 +28,14 @@ public class Charmander extends Pokemon
 
         for(Energy e : getEnergies()){
             n++;
-            if (e.getElement().equals("Fire")){
+            if (e.getElement().equals("F")){
                 f++;
             }
         }
         if(n > 1 && f > 0){
             opp.getActive().subtractHp(30);
             for(int i = 0; i < getEnergies().size(); i++){
-                if (getEnergies().get(i).getElement().equals("Fire")){
+                if (getEnergies().get(i).getElement().equals("F")){
                     p.discard(getEnergies().remove(i));
                     break;
                 }

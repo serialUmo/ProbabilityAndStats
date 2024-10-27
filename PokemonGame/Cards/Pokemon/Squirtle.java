@@ -13,7 +13,7 @@ public class Squirtle extends Pokemon
 
     public boolean move1(Player p, Player opp) {
         for(Energy e : getEnergies()){
-            if (e.getElement().equals("Water")){
+            if (e.getElement().equals("W")){
                 opp.getActive().subtractHp(20);
                 return true;
             }

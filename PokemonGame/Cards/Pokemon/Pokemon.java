@@ -19,11 +19,13 @@ public abstract class Pokemon extends Card
     private Random rng;
 
     private int hp;
+    private boolean alive;
     private String move1Desc;
     private String move2Desc;
     private ArrayList<Energy> energies;
 
     public Pokemon(){
+        alive = true;
         rng = new Random();
         energies = new ArrayList<>();
     }
@@ -49,19 +51,24 @@ public abstract class Pokemon extends Card
     public void subtractHp(int dmg){
         System.out.println(getName() + " took " + dmg + " damage!");
         hp -= dmg;
+        if(hp <= 0){
+            System.out.println(getName() + " fainted!");
+            alive = false;
+        }
     }
 
     public String getMove1Desc(){return move1Desc;}
     public String getMove2Desc(){return move2Desc;}
     public void setMove1Desc(String input){move1Desc = input;}
     public void setMove2Desc(String input){move2Desc = input;}
+    public boolean isAlive(){return alive;}
 
     public ArrayList<Energy> getEnergies(){return energies;}
 
     public Random getRNG(){return rng;}
     
     public String toString(){
-        return getName() + " (HP: " + hp + ")";
+        return getName() + " (HP: " + hp + ") " + energies;
     }
 }
 
