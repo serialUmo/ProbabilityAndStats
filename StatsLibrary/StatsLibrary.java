@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -123,8 +124,8 @@ public class StatsLibrary
      * @param r The number of elements to order.
      * @return The number of permutations.
      */
-    public int permutation (int n, int r){
-        return factorial(n)/(factorial(n - r));
+    public BigInteger permutation (int n, int r){
+        return factorial(n).divide(factorial(n - r));
     }
 
     /**
@@ -133,21 +134,31 @@ public class StatsLibrary
      * @param r The number of elements to choose.
      * @return The number of combinations.
      */
-    public int combination (int n, int r){
-        return permutation(n, r)/factorial(r);
+    public BigInteger combination (int n, int r){
+        return permutation(n, r).divide(factorial(r));
+    }
+
+    /**
+     * The top call for factorial.
+     * @param input
+     * @return
+     */
+    public BigInteger factorial(int input){
+        BigInteger big_integer = BigInteger.valueOf(input);
+        return _factorial(big_integer);
     }
 
     /**
      * Returns the factorial of a number.
-     * @param input An integer.
+     * @param bigInteger A big integer.
      * @return Factorial of an integer.
      */
-    public int factorial(int input){
-        if(input == 1){
-            return 1;
+    private BigInteger _factorial(BigInteger big){
+        if(big.compareTo(BigInteger.ONE) <= 0){
+            return BigInteger.ONE;
         }
 
-        return input * factorial(input - 1);
+        return _factorial(big.subtract(BigInteger.ONE)).multiply(big);
     }
 
     //Probability  ===========================================================================
@@ -169,19 +180,8 @@ public class StatsLibrary
      * @param b The probability of B.
      * @return The probability of A|B.
      */
-    public double bayesTheorem1(double bga, double a, double b){
+    public double bayesTheorem(double bga, double a, double b){
         return (bga*a)/b;
-    }
-
-    /**
-     * Find P(A|B) using P(A n B), P(A), P(B).
-     * @param anb The probability of A n B.
-     * @param a The probability of A.
-     * @param b The probability of B.
-     * @return The probability of A|B.
-     */
-    public double bayesTheorem2(double anb, double a, double b){
-        return (conditionalProbability(anb, a)*a)/b;
     }
 
     /**
@@ -214,7 +214,7 @@ public class StatsLibrary
      * @return The chance of x successes out of n trials.
      */
     public double binomdist(int n, double p, int x){
-        return combination(n, x) * Math.pow(p,x) * Math.pow(1-p, n-x);
+        return combination(n, x).intValue() * Math.pow(p,x) * Math.pow(1-p, n-x);
     }
 
     /**
