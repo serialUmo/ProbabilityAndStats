@@ -42,26 +42,56 @@ public class Player
         deck.add(new Pikachu());
         deck.add(new Bulbasaur());
         deck.add(new Squirtle());
+        deck.add(new Charmander());
+        deck.add(new Pikachu());
+        deck.add(new Bulbasaur());
+        deck.add(new Squirtle());
+        deck.add(new Charmander());
+        deck.add(new Pikachu());
+        deck.add(new Bulbasaur());
+        deck.add(new Squirtle());
+        deck.add(new Charmander());
+        deck.add(new Pikachu());
+        deck.add(new Bulbasaur());
+        deck.add(new Squirtle());
 
         //Trainers
         deck.add(new Nemona());
         deck.add(new Nemona());
+        deck.add(new Nemona());
+        deck.add(new Nemona());
+        deck.add(new ProfResearch());
+        deck.add(new ProfResearch());
         deck.add(new ProfResearch());
         deck.add(new ProfResearch());
         deck.add(new RareCandy());
         deck.add(new RareCandy());
+        deck.add(new RareCandy());
+        deck.add(new RareCandy());
+        deck.add(new NestBall());
+        deck.add(new NestBall());
+        deck.add(new NestBall());
+        deck.add(new NestBall());
+        deck.add(new PokeBall());
+        deck.add(new PokeBall());
+        deck.add(new PokeBall());
+        deck.add(new PokeBall());
+        deck.add(new QuickBall());
+        deck.add(new QuickBall());
+        deck.add(new QuickBall());
+        deck.add(new QuickBall());
 
         //Energy
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 5; i++){
             deck.add(new Energy("F"));
         }
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 5; i++){
             deck.add(new Energy("G"));
         }
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 5; i++){
             deck.add(new Energy("W"));
         }
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 5; i++){
             deck.add(new Energy("E"));
         }
 
