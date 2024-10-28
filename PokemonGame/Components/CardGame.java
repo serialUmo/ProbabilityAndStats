@@ -49,16 +49,16 @@ public class CardGame
         //Coin Flip
         if(rng.nextBoolean()){
             say("Coin: TAILS!\nPlayer 2 goes first!");
-            doTurn(p2);
+            doTurn(p2, p1);
         }
         else{
             say("Coin: HEADS!\nPlayer 1 goes first!");
         }
 
         while(!done){
-            doTurn(p1);
+            doTurn(p1, p2);
             if(!done){
-                doTurn(p2);
+                doTurn(p2, p1);
             }
         }
 
@@ -70,8 +70,9 @@ public class CardGame
      * Performs a player's turn within a Pokemon match.
      * During a turn, a player may attack, play a trainer card, place an energy card, swap active pokemon with benched pokemon, and end turn without attacking.
      * @param p The player whose turn it is.
+     * @param opp The opposing player.
      */
-    private void doTurn(Player p) {
+    private void doTurn(Player p, Player opp) {
         br();
         say(p + " =========================================");
 
@@ -108,12 +109,12 @@ public class CardGame
             int choice = scan.nextInt();
 
             if(choice == 1){
-                attack(p, getOpp(p));
+                attack(p, opp);
 
                 //Check if pokemon fainted
                 if(!p.getActive().isAlive()){
                     //Draw Prize
-                    done = !winPrize(getOpp(p));
+                    done = !winPrize(opp);
                     if(done){
                         say("ALL PRIZES DRAWN!");
                         loser = p.toString();
@@ -128,19 +129,19 @@ public class CardGame
                         return;
                     }
                 }
-                if(!getOpp(p).getActive().isAlive()){
+                if(!opp.getActive().isAlive()){
                     //Draw Prize
-                    done = !winPrize(getOpp(p));
+                    done = !winPrize(p);
                     if(done){
                         say("ALL PRIZES DRAWN!");
-                        loser = p.toString();
+                        loser = opp.toString();
                         return;
                     }
                     //Swap Pokemon
-                    done = !swapActive(getOpp(p));
+                    done = !swapActive(opp);
                     if(done){
                         say("OUT OF POKEMON!");
-                        loser = getOpp(p).toString();
+                        loser = opp.toString();
                         return;
                     }
                 }
@@ -285,9 +286,12 @@ public class CardGame
 
         //Check supporter status
         Trainer temp = (Trainer) p.getHand().get(choice);
-        if(temp.isSupporter() && placedSupporter){
-            say("This is a supporter card! You already played one this turn!");
-            return;
+        if(temp.isSupporter()){
+            if(placedSupporter){
+                say("This is a supporter card! You already played one this turn!");
+                return;
+            }
+            placedSupporter = true;
         }
 
         //Take out card
@@ -482,19 +486,5 @@ public class CardGame
     private void reset(){
         p1 = new Player("Player 1");
         p2 = new Player("Player 2");
-    }
-
-    /**
-     * Gets opposing player.
-     * @param p The current player.
-     * @return The opposing player.
-     */
-    private Player getOpp(Player p){
-        if(p.toString() == p1.toString()){
-            return p2;
-        }
-        else{
-            return p1;
-        }
     }
 }
