@@ -82,16 +82,16 @@ public class Player
         deck.add(new QuickBall());
 
         //Energy
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < 8; i++){
             deck.add(new Energy("F"));
         }
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < 8; i++){
             deck.add(new Energy("G"));
         }
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < 7; i++){
             deck.add(new Energy("W"));
         }
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < 7; i++){
             deck.add(new Energy("E"));
         }
 
