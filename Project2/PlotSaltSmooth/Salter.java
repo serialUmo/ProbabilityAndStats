@@ -1,4 +1,4 @@
-package Project2;
+package Project2.PlotSaltSmooth;
 
 import java.util.ArrayList;
 import java.util.Random;

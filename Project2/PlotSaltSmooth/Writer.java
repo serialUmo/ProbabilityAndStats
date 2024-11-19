@@ -1,4 +1,4 @@
-package Project2;
+package Project2.PlotSaltSmooth;
 
 import java.io.File;
 import java.io.FileNotFoundException;

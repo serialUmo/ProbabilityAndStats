@@ -1,4 +1,4 @@
-package Project2;
+package Project2.PlotSaltSmooth;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -18,8 +18,8 @@ public class SaltSmoothRun{
         double upperBound = 100;
         double interval = 0.1;
         int saltRange = 250000;
-        int window = 3;
-        int smoothCount = 5;
+        int window = 1;
+        int smoothCount = 3;
 
         ArrayList<double[]> plot = plotter.plot(lowerBound, upperBound, interval);
 
