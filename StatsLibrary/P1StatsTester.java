@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
 /**
- * Tests the functions of StatsLibrary.
+ * Tests the Project 1 functions of StatsLibrary.
  */
-public class StatsLTester
+public class P1StatsTester
 {
     public static void main(String[] args){
         StatsLibrary tester = new StatsLibrary();

@@ -228,6 +228,57 @@ public class StatsLibrary
         return p * Math.pow(1 - p, x);
     }
 
+    /**
+     * Finds the probability of getting a number of successful draws from a pool without replacement.
+     * @param pop Population.
+     * @param n Number of draws.
+     * @param r Number of items of interest in population.
+     * @param y Number of successful draws.
+     * @return
+     */
+    public double hypergeodist(int pop, int n, int r, int y){
+        double num = combination(r, y).multiply(combination(pop-r, n-y)).doubleValue();
+        double den = combination(pop, n).doubleValue();
+        return num/den;
+    }
+
+    /**
+     * Finds the probability of getting a success on the end of a number of trials after previous successes.
+     * @param trials
+     * @param successes
+     * @param p Probability of a success.
+     * @return
+     */
+    public double nbinomdist(int trials, int successes, double p){
+        return combination(trials - 1, successes - 1).intValue()*(Math.pow(p, successes)*Math.pow(1-p, trials-successes));
+    }
+
+    /**
+     * Finds the probability of a number of successes occuring with a rate.
+     * @param successes
+     * @param rate
+     * @return
+     */
+    public double poissondist(int successes, double rate){
+        return (Math.pow(rate, successes)*Math.pow(Math.E, rate*-1))/factorial(successes).intValue();
+    }
+
+    /*
+     * Returns the probability of an event occuring between bounds.
+     */
+    public double uniformdist(double a, double b){
+        return 1/(b-a);
+    }
+
+    /**
+     * Returns the minimum probability of a value being within a certain number of standard deviations.
+     * @param k The number of standard deviations.
+     * @return
+     */
+    public double tchebys(double k){
+        return 1.0-(1.0/Math.pow(k, 2));
+    }
+
     //Sorting ================================================================
 
     /**
