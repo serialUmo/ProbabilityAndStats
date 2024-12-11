@@ -1,7 +1,1 @@
-Code for assignments should be found in their corresponding folder. (SetOperations will be found in the StatsLibrary folder.)
-
-Files that run tests should be self-evident ("Test" in the file name).
-
-Run Game.java to play Pokemon.
-
-Excel sheets, Formula Sheet, Github Assignment work, and general project documentation should be found in their corresponding .pdf files.
+All Project 2 code and documentations will be in the "Project 2" folder, with the exception of the StatsLibrary file, which has remained in its previous folder with the addition of P2StatsTester.
